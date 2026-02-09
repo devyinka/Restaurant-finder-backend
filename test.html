@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant API Test</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      input {
+        padding: 8px;
+        margin: 5px;
+        width: 150px;
+      }
+      button {
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+      pre {
+        background: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Restaurant API Tester</h1>
+
+    <div>
+      <label>Latitude:</label>
+      <input type="number" id="lat" value="41.878113" step="0.000001" />
+    </div>
+
+    <div>
+      <label>Longitude:</label>
+      <input type="number" id="lng" value="-87.629799" step="0.000001" />
+    </div>
+
+    <button onclick="testAPI()">Test API</button>
+    <button onclick="clearOutput()">Clear</button>
+
+    <h2>Response:</h2>
+    <pre id="output">Waiting for response...</pre>
+
+    <script>
+      async function testAPI() {
+        const lat = document.getElementById("lat").value;
+        const lng = document.getElementById("lng").value;
+        const output = document.getElementById("output");
+
+        output.textContent = "Loading...";
+
+        try {
+          const response = await fetch("http://localhost:3000/getrestaurant", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              lat: parseFloat(lat),
+              lng: parseFloat(lng),
+            }),
+          });
+
+          const data = await response.json();
+          output.textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+          output.textContent = "Error: " + error.message;
+        }
+      }
+
+      function clearOutput() {
+        document.getElementById("output").textContent =
+          "Waiting for response...";
+      }
+    </script>
+  </body>
+</html>

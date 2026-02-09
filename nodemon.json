@@ -1,0 +1,7 @@
+{
+  "watch": [".", "../Frontend"],
+  "ext": "js,json,jsx,html,css",
+  "ignore": ["node_modules/**", "*.test.js"],
+  "delay": 500,
+  "verbose": true
+}
